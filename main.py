@@ -38,5 +38,7 @@ with st.sidebar:
                     {"role": "user", "content": query},
                 ],
             )
-    
-st.markdown(f'{output.choices[0].message.content}</div>', unsafe_allow_html=True)
+if(type(output) == dict):
+    st.markdown(f'{output["choices"][0]["message"]["content"]}</div>', unsafe_allow_html=True)
+else:
+    st.markdown(f'{output.choices[0].message.content}</div>', unsafe_allow_html=True)
