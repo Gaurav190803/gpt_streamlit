@@ -1,10 +1,10 @@
-import openai
+from openai import OpenAI
 from dotenv import load_dotenv
 import os
 import streamlit as st
 
 load_dotenv()
-openai.api_key = os.getenv("api_key")
+client = OpenAI(api_key = os.getenv("api_key"))
 output = {
         "choices": [
             {
@@ -30,7 +30,7 @@ with st.sidebar:
         submit = st.form_submit_button()
         
         if context and query:
-            output = openai.ChatCompletion.create(
+            output = client.chat.completions.create(
                 model="gpt-3.5-turbo-16k",
                 temperature=0.6,
                 messages=[
@@ -39,4 +39,4 @@ with st.sidebar:
                 ],
             )
     
-st.markdown(f'{output["choices"][0]["message"]["content"]}</div>', unsafe_allow_html=True)
+st.markdown(f'{output.choices[0].message.content}</div>', unsafe_allow_html=True)
